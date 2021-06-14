@@ -37,6 +37,7 @@ What will be asked?
 - A number defining how much times the gif should loop
 
 ## Result
+okay so i did a fucky wucky so this is a little bit wrong, I forgot to add the fit image to center fix so yes this is what it will look like when that fix is pushed
 
 ### Static Image:
 
