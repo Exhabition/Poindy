@@ -54,3 +54,5 @@ okay so i did a fucky wucky so this is a little bit wrong, I forgot to add the f
 <br>
 <img src="https://user-images.githubusercontent.com/63742759/121865180-f4c0cb80-ccfd-11eb-8210-8fae3aac8cab.gif" width=200>
 
+### Credits:
+All Electron code is from [JanieUwU](https://github.com/JanieUwU), unless it creates bugs, then it's made by me
