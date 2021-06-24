@@ -2,15 +2,18 @@
   "name": "poinda-shut-up",
   "version": "1.0.0",
   "description": "Dumb thingy",
-  "main": "./src/index.js",
+  "main": "./src/main.js",
   "dependencies": {
     "canvas": "^2.8.0",
-    "gif-frames": "^1.0.1",
-    "gif-encoder-2": "^1.0.5"
+    "gif-encoder-2": "^1.0.5",
+    "gif-frames": "^1.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "electron": "^13.1.2"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
   },
   "author": "",
   "license": "ISC"
