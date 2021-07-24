@@ -1,25 +1,29 @@
-const ipc = require("electron").ipcRenderer;
-const { shell } = require("electron");
+const { ipcRenderer, shell } = require("electron");
 
 const selectStaticImageButton = document.getElementById("selectStaticImage");
 const selectMovingImageButton = document.getElementById("selectMovingImage");
-const submitButton = document.getElementById("submitImages");
 
-selectStaticImageButton.addEventListener("click", event => {
+selectStaticImageButton.addEventListener("click", async () => {
     shell.beep();
-    ipc.send("selectImage", [
+    const response = await ipcRenderer.invoke("selectImage", [
         { name: "Porn", extensions: ["jpg", "png"] },
-    ], "static");
+    ], "static").catch(error => alert(error));
+
+    const replaceText = response || "None";
+    document.getElementById("staticImageLabel").innerText = `Selected: ${replaceText}`;
+    if (response) document.getElementById("staticImagePreview").src = response;
 });
 
-selectMovingImageButton.addEventListener("click", event => {
-    console.log(event);
+selectMovingImageButton.addEventListener("click", async event => {
     shell.beep();
-    ipc.send("selectImage", [
+    const response = await ipcRenderer.invoke("selectImage", [
         { name: "Hentai", extensions: ["gif"] },
-    ], "dynamic");
+    ], "dynamic").catch(error => alert(error));
+
+    const replaceText = response || "None";
+    document.getElementById("movingImageLabel").innerText = `Selected: ${replaceText}`;
 });
 
-submitButton.addEventListener("click", event => {
-    ipc.send("generateGifImage");
-});
+function generateGifImage() {
+    ipcRenderer.invoke("generateGifImage");
+}

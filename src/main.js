@@ -13,6 +13,7 @@ function createWindow() {
         },
     });
 
+    mainWindow.webContents.openDevTools();
 
     mainWindow.loadFile(path.join(__dirname, "../assets/index.html"));
     mainWindow.setIcon(path.join(__dirname, "../assets/images/favicon.png"));
@@ -34,30 +35,34 @@ app.on("window-all-closed", function () {
 const currentPaths = {
     static: null,
     dynamic: null,
+    loops: 1,
 };
 
-ipcMain.on("selectImage", async (event, fileFilters, type) => {
-    console.log(event);
-    console.log(fileFilters);
-
-    dialog.showOpenDialog({
+ipcMain.handle("selectImage", async (event, fileFilters, type) => {
+    const response = await dialog.showOpenDialog({
         title: "Select a static image",
         properties: ["openFile"],
         filters: fileFilters,
-    }).then(function (response) {
-        if (!response.canceled) {
-            // handle fully qualified file name
-            console.log(response.filePaths[0]);
-            currentPaths[type] = response.filePaths[0];
-        } else {
-            console.log("no file selected");
-        }
-    });
+    }).catch(error => console.error(error));
+
+    if (!response.canceled) {
+        // handle fully qualified file name
+        console.log(response.filePaths[0]);
+        currentPaths[type] = response.filePaths[0];
+    } else {
+        console.log("no file selected");
+    }
+
+    console.log("done, returning", currentPaths[type]);
+
+    return currentPaths[type];
 });
 
-ipcMain.on("generateGifImage", async (event) => {
+ipcMain.handle("generateGifImage", async (event) => {
     console.log("generataergetfbnhg");
     if (currentPaths.static && currentPaths.dynamic) {
         generateGifImage(currentPaths.static, currentPaths.dynamic, 1);
     }
 });
+
+ipcMain.handle("getCurrentInfo", async (event) => currentPaths);

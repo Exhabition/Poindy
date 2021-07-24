@@ -9,7 +9,7 @@ const GIFFrames = require("gif-frames");
 const { writeFile } = require("fs").promises;
 
 // Canvas for loading and drawing images (I choose to use canvas rather then something like ffmpeg as their install guide is not really user friendly)
-const { createCanvas, loadImage, Image } = require("canvas");
+const { Canvas, loadImage, Image } = require("skia-canvas");
 
 // Loading configuration
 const { outputSize, frameRate, imageQuality } = require("../configuration/config.json");
@@ -17,7 +17,7 @@ const { outputSize, frameRate, imageQuality } = require("../configuration/config
 // Self executing function to allow await in this function
 module.exports = async (staticImagePath, gifImagePath, amountOfLoops) => {
     // Create a canvas to draw on, uses configuration and draw the image on the canvas
-    const canvas = new createCanvas(outputSize, outputSize);
+    const canvas = new Canvas(outputSize, outputSize);
     const context = canvas.getContext("2d");
     const staticImage = await loadImage(staticImagePath);
     context.drawImage(staticImage, 0, 0, outputSize, outputSize);

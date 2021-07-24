@@ -1,25 +1,85 @@
 <!DOCTYPE html>
 <html>
+  <nav class="topnav">
+    <a class="active" href="#home">Poindy</a>
+    <a href="#github">GitHub</a>
+    <a href="#help">Help</a>
+    <a href="#about">About</a>
+  </nav>
+
   <head>
     <meta charset="UTF-8" />
 
     <link rel="stylesheet" href="./css/style.css" />
 
-    <title>Roblox</title>
+    <title>Poindy</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
+    <form id="regForm">
+      <h1>Complete this action:</h1>
 
-    <button id="selectStaticImage">Select a static image</button>
-    <p id="selectedStaticUrl"></p>
+      <div class="tab" id=>
+        Select a static image, this is what people will see if they don't hover
+        over your profile picture:
+        <p>
+          <button type="button" id="selectStaticImage">Choose a static image</button>
+        </p>
+        <span>
+          <p class="imageHover" id="staticImageLabel">Selected: None</p>
+          <div class="imagePreview"> 
+            <img id="staticImagePreview"><p>Preview</p></img>
+          </div>
+        </span>
+      </div>
 
-    <button id="selectMovingImage">Select a moving image</button>
-    <p id="selectedMovingUrl"></p>
+      <div class="tab">
+        Select a gif image, this is what people will see if they hover over your
+        profile picture:
+        <p>
+          <button type="button" id="selectMovingImage">Choose a gif image</button>
+        </p>
+        <p id="movingImageLabel">Selected: None</p>
+      </div>
 
-    <input type="number">Number of loops</input>
+      <div class="tab">
+        Some optional advanced settings:
+        <p>
+          <p>Amount of times the gif is looped:</p>
+          <input type="number" id="changeAmountOfLoops" placeholder="ex. 15 (a valid integer)"></input>
+        </p>
+        <p>
+          <p>Height and width of output in pixels:</p>
+          <input type="number" id="changeAmountOfLoops" placeholder="ex. 256 (a valid integer)"></input>
+        </p>
+        <p>
+          <p>Framerate used for the gif:</p>
+          <input type="number" id="changeAmountOfLoops" placeholder="ex. 12 (a valid integer)"></input>
+        </p>
+        <p>
+          <p>The image quality of the output:</p>
+          <input type="number" max="100" min="1" id="changeAmountOfLoops" placeholder="1 is lowest quality, 100 is highest quality"></input>
+        </p>
+      </div>
 
-    <button id="submitImages">I want to die</button>
+      <div style="overflow: auto">
+        <div style="float: right">
+          <button type="button" id="prevBtn" onclick="nextPrev(-1)">
+            Previous
+          </button>
+          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px">
+        <span class="step"></span>
+        <span class="step"></span>
+        <span class="step"></span>
+      </div>
+    </form>
+
+    <div id="toast">Oops, no message.</div>
   </body>
 
   <script src="./js/fileSelecting.js"></script>
+  <script src="./js/multiStepForm.js"></script>
 </html>
