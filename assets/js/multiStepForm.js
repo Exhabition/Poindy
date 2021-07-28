@@ -14,6 +14,7 @@ function showTab(n) {
         document.getElementById("nextBtn").innerHTML = "Submit";
         const color = window.getComputedStyle(document.documentElement).getPropertyValue("--green");
         document.getElementById("nextBtn").style.backgroundColor = color;
+        document.getElementById("nextBtn").setAttribute("onClick", "generateGifImage()");
     } else {
         document.getElementById("nextBtn").innerHTML = "Next";
     }

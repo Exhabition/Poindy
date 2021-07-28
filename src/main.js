@@ -5,6 +5,7 @@ const generateGifImage = require("../src/images");
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
+        show: false,
         width: 800,
         height: 600,
         webPreferences: {
@@ -12,6 +13,9 @@ function createWindow() {
             contextIsolation: false,
         },
     });
+
+    mainWindow.maximize();
+    mainWindow.show();
 
     mainWindow.webContents.openDevTools();
 
@@ -59,10 +63,13 @@ ipcMain.handle("selectImage", async (event, fileFilters, type) => {
 });
 
 ipcMain.handle("generateGifImage", async (event) => {
-    console.log("generataergetfbnhg");
     if (currentPaths.static && currentPaths.dynamic) {
         generateGifImage(currentPaths.static, currentPaths.dynamic, 1);
     }
+});
+
+ipcMain.handle("addOptionalStat", async (event) => {
+
 });
 
 ipcMain.handle("getCurrentInfo", async (event) => currentPaths);

@@ -2,9 +2,6 @@
 <html>
   <nav class="topnav">
     <a class="active" href="#home">Poindy</a>
-    <a href="#github">GitHub</a>
-    <a href="#help">Help</a>
-    <a href="#about">About</a>
   </nav>
 
   <head>
@@ -12,9 +9,51 @@
 
     <link rel="stylesheet" href="./css/style.css" />
 
+    <script src="https://kit.fontawesome.com/a6f655ab64.js" crossorigin="anonymous"></script>
+
     <title>Poindy</title>
   </head>
   <body>
+    <div class="sidebar open">
+      <div class="logo-details">
+        <i class='fas fa-bars' id="btn"></i>
+        <div class="logo_name">Poindy</div>
+      </div>
+      <ul class="nav-list">
+        <li>
+          <a href="#" class="sidebarButton">
+            <i class='fas fa-history'></i>
+            <span class="links_name">History</span>
+          </a>
+           <span class="tooltip">Past Images</span>
+        </li>
+        <li>
+         <a href="#" class="sidebarButton">
+           <i class='fas fa-question-circle' ></i>
+           <span class="links_name">Help</span>
+         </a>
+         <span class="tooltip">Need Help?</span>
+       </li>
+       <li>
+         <a href="#" class="sidebarButton">
+           <i class='fas fa-cog' ></i>
+           <span class="links_name">Settings</span>
+         </a>
+         <span class="tooltip">Manage Settings</span>
+       </li>
+       <li class="profile">
+           <div class="profile-details">
+              <i class="fab fa-github-square fa-lg"></i>
+             <div class="name_job">
+               <a class="name" href="https://github.com/Exhabition/Poindy">Source code</a>
+               <div class="job">on GitHub</div>
+             </div>
+           </div>
+           <i class='fas fa-sign-out-alt' id="log_out" ></i>
+       </li>
+      </ul>
+    </div>
+
     <form id="regForm">
       <h1>Complete this action:</h1>
 
@@ -59,6 +98,10 @@
           <p>The image quality of the output:</p>
           <input type="number" max="100" min="1" id="changeAmountOfLoops" placeholder="1 is lowest quality, 100 is highest quality"></input>
         </p>
+        <p>
+          <button type="button" id="selectSaveLocation">Choose a save location</button>
+        </p>
+        <p id="saveLocationLabel">Save to: Poindy/results</p>
       </div>
 
       <div style="overflow: auto">
@@ -82,4 +125,5 @@
 
   <script src="./js/fileSelecting.js"></script>
   <script src="./js/multiStepForm.js"></script>
+  <script src="./js/navigation.js"></script>
 </html>
