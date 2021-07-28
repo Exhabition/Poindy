@@ -1,9 +1,5 @@
 <!DOCTYPE html>
 <html>
-  <nav class="topnav">
-    <a class="active" href="#home">Poindy</a>
-  </nav>
-
   <head>
     <meta charset="UTF-8" />
 
@@ -14,11 +10,15 @@
     <title>Poindy</title>
   </head>
   <body>
-    <div class="sidebar open">
+    <nav class="topnav">
       <div class="logo-details">
-        <i class='fas fa-bars' id="btn"></i>
+        <img class="icon" src="./images/poindy.jpg"></img>
         <div class="logo_name">Poindy</div>
+        <i class='fas fa-bars' id="btn"></i>
       </div>
+    </nav>
+
+    <div class="sidebar open">
       <ul class="nav-list">
         <li>
           <a href="#" class="sidebarButton">
@@ -84,24 +84,24 @@
         Some optional advanced settings:
         <p>
           <p>Amount of times the gif is looped:</p>
-          <input type="number" id="changeAmountOfLoops" placeholder="ex. 15 (a valid integer)"></input>
+          <input type="number" id="loops" placeholder="ex. 15 (a valid integer)"></input>
         </p>
         <p>
           <p>Height and width of output in pixels:</p>
-          <input type="number" id="changeAmountOfLoops" placeholder="ex. 256 (a valid integer)"></input>
+          <input type="number" id="pixels" placeholder="ex. 256 (a valid integer)"></input>
         </p>
         <p>
           <p>Framerate used for the gif:</p>
-          <input type="number" id="changeAmountOfLoops" placeholder="ex. 12 (a valid integer)"></input>
+          <input type="number" id="frameRate" placeholder="ex. 12 (a valid integer)"></input>
         </p>
         <p>
           <p>The image quality of the output:</p>
-          <input type="number" max="100" min="1" id="changeAmountOfLoops" placeholder="1 is lowest quality, 100 is highest quality"></input>
+          <input type="number" max="100" min="1" id="quality" placeholder="1 is lowest quality, 100 is highest quality"></input>
         </p>
         <p>
           <button type="button" id="selectSaveLocation">Choose a save location</button>
         </p>
-        <p id="saveLocationLabel">Save to: Poindy/results</p>
+        <p id="saveLocationLabel">Selected: Poindy/results</p>
       </div>
 
       <div style="overflow: auto">

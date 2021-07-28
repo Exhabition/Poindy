@@ -36,10 +36,11 @@ app.on("window-all-closed", function () {
     if (process.platform !== "darwin") app.quit();
 });
 
-const currentPaths = {
+const currentSettings = {
     static: null,
     dynamic: null,
     loops: 1,
+    save: "./results",
 };
 
 ipcMain.handle("selectImage", async (event, fileFilters, type) => {
@@ -52,24 +53,43 @@ ipcMain.handle("selectImage", async (event, fileFilters, type) => {
     if (!response.canceled) {
         // handle fully qualified file name
         console.log(response.filePaths[0]);
-        currentPaths[type] = response.filePaths[0];
+        currentSettings[type] = response.filePaths[0];
     } else {
         console.log("no file selected");
     }
 
-    console.log("done, returning", currentPaths[type]);
+    console.log("done, returning", currentSettings[type]);
 
-    return currentPaths[type];
+    return currentSettings[type];
 });
+
+ipcMain.handle("changeSaveLocation", async (event) => {
+    const response = await dialog.showOpenDialog({
+        title: "Select a save location",
+        properties: ["openDirectory"],
+    }).catch(error => console.error(error));
+
+    if (!response.canceled) {
+        console.log(response);
+        // handle fully qualified file name
+        console.log(response.filePaths[0]);
+        currentSettings.save = response.filePaths[0];
+    } else {
+        console.log("no file selected");
+    }
+
+    return currentSettings.save;
+});
+
+ipcMain.handle("addOptionalStat", async (event, toSaveKey, toSaveValue) => {
+    console.log("adding", toSaveKey, "as", toSaveValue);
+    currentSettings[toSaveKey] = toSaveValue;
+});
+
+ipcMain.handle("getCurrentInfo", async (event) => currentSettings);
 
 ipcMain.handle("generateGifImage", async (event) => {
-    if (currentPaths.static && currentPaths.dynamic) {
-        generateGifImage(currentPaths.static, currentPaths.dynamic, 1);
+    if (currentSettings.static && currentSettings.dynamic) {
+        generateGifImage(currentSettings);
     }
 });
-
-ipcMain.handle("addOptionalStat", async (event) => {
-
-});
-
-ipcMain.handle("getCurrentInfo", async (event) => currentPaths);

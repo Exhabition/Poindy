@@ -1,24 +1,23 @@
 let currentTab = 0;
 showTab(currentTab);
 
-function showTab(n) {
-    const x = document.getElementsByClassName("tab");
-    x[n].style.display = "block";
+function showTab(pos) {
+    const tab = document.getElementsByClassName("tab");
+    tab[pos].style.display = "block";
 
-    if (n == 0) {
+    if (pos == 0) {
         document.getElementById("prevBtn").style.display = "none";
     } else {
         document.getElementById("prevBtn").style.display = "inline";
     }
-    if (n == x.length - 1) {
+    if (pos == tab.length - 1) {
         document.getElementById("nextBtn").innerHTML = "Submit";
         const color = window.getComputedStyle(document.documentElement).getPropertyValue("--green");
         document.getElementById("nextBtn").style.backgroundColor = color;
-        document.getElementById("nextBtn").setAttribute("onClick", "generateGifImage()");
     } else {
         document.getElementById("nextBtn").innerHTML = "Next";
     }
-    fixStepIndicator(n);
+    fixStepIndicator(pos);
 }
 
 async function nextPrev(n) {
@@ -26,10 +25,18 @@ async function nextPrev(n) {
     if (n == 1 && !await validateForm()) return false;
 
     x[currentTab].style.display = "none";
+
+    const tabInputs = x[currentTab].getElementsByTagName("input");
+    if (tabInputs.length > 0) {
+        for (const input of tabInputs) {
+            if (input.value) await ipcRenderer.invoke("addOptionalStat", input.id, input.value);
+        }
+    }
+
     currentTab = currentTab + n;
 
     if (currentTab >= x.length) {
-        document.getElementById("regForm").submit();
+        generateGifImage();
         return false;
     }
 
@@ -54,19 +61,26 @@ async function validateForm() {
 }
 
 function fixStepIndicator(n) {
-    const x = document.getElementsByClassName("step");
-    for (let i = 0; i < x.length; i++) {
-        x[i].className = x[i].className.replace(" active", "");
+    const stepIcon = document.getElementsByClassName("step");
+    for (let i = 0; i < stepIcon.length; i++) {
+        stepIcon[i].className = stepIcon[i].className.replace(" active", "");
     }
 
-    x[n].className += " active";
+    stepIcon[n].className += " active";
 }
 
-function showToast(text) {
-    const x = document.getElementById("toast");
+function showToast(text, color = "#ed4245") {
+    const toast = document.getElementById("toast");
 
-    x.innerText = text;
-    x.className = "show";
+    toast.innerHTML = text;
+    toast.style.backgroundColor = color;
+    toast.className = "show";
 
-    setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 3000);
+}
+
+function generateGifImage() {
+    ipcRenderer.invoke("generateGifImage").then(() => {
+        showToast("Image saved to <b>D:/Bullshit/Path<b>", "#3ba55d");
+    });
 }

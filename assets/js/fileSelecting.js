@@ -2,6 +2,7 @@ const { ipcRenderer, shell } = require("electron");
 
 const selectStaticImageButton = document.getElementById("selectStaticImage");
 const selectMovingImageButton = document.getElementById("selectMovingImage");
+const selectSaveLocationButton = document.getElementById("selectSaveLocation");
 
 selectStaticImageButton.addEventListener("click", async () => {
     shell.beep();
@@ -24,6 +25,10 @@ selectMovingImageButton.addEventListener("click", async event => {
     document.getElementById("movingImageLabel").innerText = `Selected: ${replaceText}`;
 });
 
-function generateGifImage() {
-    ipcRenderer.invoke("generateGifImage");
-}
+selectSaveLocationButton.addEventListener("click", async event => {
+    shell.beep();
+    const response = await ipcRenderer.invoke("changeSaveLocation").catch(error => alert(error));
+
+    const replaceText = response || "None";
+    document.getElementById("saveLocationLabel").innerText = `Selected: ${replaceText}`;
+});

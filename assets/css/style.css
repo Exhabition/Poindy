@@ -64,7 +64,8 @@ button:focus {
 .topnav {
   background-color: var(--navbar-grey);
   overflow: hidden;
-  margin-bottom: 1rem;
+  z-index: 1000;
+  margin-bottom: 1px;
   box-shadow: 0 2px 1px -1px black;
 }
 
@@ -230,7 +231,6 @@ input.invalid {
 .sidebar {
   position: fixed;
   left: 0;
-  top: 0;
   height: 100%;
   width: 78px;
   background: var(--light-navbar-grey);
@@ -241,42 +241,44 @@ input.invalid {
 .sidebar.open {
   width: 250px;
 }
-.sidebar .logo-details {
+.topnav .logo-details {
   height: 60px;
+  width: 250px;
   display: flex;
   align-items: center;
   position: relative;
 }
-.sidebar .logo-details .icon {
-  opacity: 0;
+.topnav .logo-details .icon {
+  height: 100%;
+  padding: 0.5rem;
   transition: all 0.5s ease;
 }
-.sidebar .logo-details .logo_name {
-  color: var(--text-white);
+.topnav .logo-details .logo_name {
+  color: var(--blurple);
   font-size: 20px;
-  font-weight: 600;
-  opacity: 0;
+  font-weight: 850;
+  font-style: bold;
   transition: all 0.5s ease;
 }
-.sidebar.open .logo-details .icon,
-.sidebar.open .logo-details .logo_name {
-  opacity: 1;
-}
-.sidebar .logo-details #btn {
+
+.topnav .logo-details #btn {
   position: absolute;
-  top: 50%;
   right: 0;
-  transform: translateY(-50%);
-  font-size: 22px;
-  transition: all 0.4s ease;
   font-size: 23px;
   text-align: center;
   cursor: pointer;
   transition: all 0.5s ease;
+  background: var(--light-navbar-grey);
+  border-radius: 12px;
+  height: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem;
 }
-.sidebar.open .logo-details #btn {
-  text-align: right;
+
+.topnav .logo-details #btn:hover {
+  filter: brightness(75%);
 }
+
 .sidebar i {
   color: var(--icons-grey);
   height: 60px;

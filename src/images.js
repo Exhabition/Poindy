@@ -11,15 +11,23 @@ const { writeFile } = require("fs").promises;
 // Canvas for loading and drawing images (I choose to use canvas rather then something like ffmpeg as their install guide is not really user friendly)
 const { Canvas, loadImage, Image } = require("skia-canvas");
 
-// Loading configuration
-const { outputSize, frameRate, imageQuality } = require("../configuration/config.json");
-
 // Self executing function to allow await in this function
-module.exports = async (staticImagePath, gifImagePath, amountOfLoops) => {
+module.exports = async (settings) => {
+    const staticImagePath = settings.static;
+    const gifImagePath = settings.dynamic;
+    const amountOfLoops = settings.loops || 1;
+    const saveLocation = settings.save;
+    const outputSize = settings.pixels || 256;
+    const frameRate = settings.frameRate || 12;
+    const imageQuality = settings.quality || 100;
+
+    console.log(settings);
+    console.log(typeof outputSize);
+
     // Create a canvas to draw on, uses configuration and draw the image on the canvas
     const canvas = new Canvas(outputSize, outputSize);
     const context = canvas.getContext("2d");
-    const staticImage = await loadImage(staticImagePath);
+    const staticImage = await loadImage(staticImagePath).catch(console.error);
     context.drawImage(staticImage, 0, 0, outputSize, outputSize);
 
     // Setup a encoder to start drawing a gif
@@ -55,8 +63,6 @@ module.exports = async (staticImagePath, gifImagePath, amountOfLoops) => {
 
     // Give some feedback while writing the file to the results folder
     console.log("Writing image to ./results/result.gif");
-    await writeFile("./results/result.gif", finalBuffer);
+    await writeFile(`${saveLocation}/Poindy-${Date.now()}.gif`, finalBuffer);
     console.log("Done!");
-
-    process.exit(0);
 };
