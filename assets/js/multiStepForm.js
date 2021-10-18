@@ -52,7 +52,7 @@ async function validateForm() {
     console.log(currentOption);
     if (currentOption) {
         valid = true;
-        document.getElementsByClassName("step")[currentTab].className += " finish";
+        document.getElementsByClassName("step")[currentTab].classList.add("finish");
     }
 
     if (!valid) showToast("Action not completed.");
@@ -63,10 +63,10 @@ async function validateForm() {
 function fixStepIndicator(n) {
     const stepIcon = document.getElementsByClassName("step");
     for (let i = 0; i < stepIcon.length; i++) {
-        stepIcon[i].className = stepIcon[i].className.replace(" active", "");
+        stepIcon[i].classList.remove("active");
     }
 
-    stepIcon[n].className += " active";
+    stepIcon[n].classList.add("active");
 }
 
 function showToast(text, color = "#ed4245") {
@@ -74,9 +74,9 @@ function showToast(text, color = "#ed4245") {
 
     toast.innerHTML = text;
     toast.style.backgroundColor = color;
-    toast.className = "show";
+    toast.classList.add("show");
 
-    setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 3000);
+    setTimeout(function () { toast.classList.remove("show"); }, 3000);
 }
 
 function generateGifImage() {
