@@ -62,7 +62,7 @@ module.exports = async (settings) => {
     const finalBuffer = encoder.out.getData();
 
     // Give some feedback while writing the file to the results folder
-    console.log("Writing image to ./results/result.gif");
+    console.log(`Writing image to ${saveLocation}/Poindy-${Date.now()}.gif`);
     await writeFile(`${saveLocation}/Poindy-${Date.now()}.gif`, finalBuffer);
     console.log("Done!");
 };

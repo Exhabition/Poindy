@@ -90,6 +90,8 @@ ipcMain.handle("getCurrentInfo", async (event) => currentSettings);
 
 ipcMain.handle("generateGifImage", async (event) => {
     if (currentSettings.static && currentSettings.dynamic) {
-        generateGifImage(currentSettings);
+        await generateGifImage(currentSettings);
     }
+
+    return currentSettings;
 });

@@ -80,7 +80,7 @@ function showToast(text, color = "#ed4245") {
 }
 
 function generateGifImage() {
-    ipcRenderer.invoke("generateGifImage").then(() => {
-        showToast("Image saved to <b>D:/Bullshit/Path<b>", "#3ba55d");
+    ipcRenderer.invoke("generateGifImage").then((result) => {
+        showToast(`Image saved to <b>${result.save || "Unknown Location"}</b>`, "#3ba55d");
     });
 }
