@@ -4,7 +4,6 @@
   "description": "Dumb thingy",
   "main": "src/main.js",
   "dependencies": {
-    "canvas": "^2.8.0",
     "gif-encoder-2": "^1.0.5",
     "gif-frames": "^1.0.1",
     "skia-canvas": "^0.9.23"
