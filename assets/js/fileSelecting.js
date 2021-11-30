@@ -23,6 +23,7 @@ selectMovingImageButton.addEventListener("click", async event => {
 
     const replaceText = response || "None";
     document.getElementById("movingImageLabel").innerText = `Selected: ${replaceText}`;
+    if (response) document.getElementById("movingImagePreview").src = response;
 });
 
 selectSaveLocationButton.addEventListener("click", async event => {
