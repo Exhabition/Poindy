@@ -7,7 +7,7 @@ const selectSaveLocationButton = document.getElementById("selectSaveLocation");
 selectStaticImageButton.addEventListener("click", async () => {
     shell.beep();
     const response = await ipcRenderer.invoke("selectImage", [
-        { name: "Porn", extensions: ["jpg", "png"] },
+        { name: "Image", extensions: ["jpg", "png"] },
     ], "static").catch(error => alert(error));
 
     const replaceText = response || "None";
@@ -18,7 +18,7 @@ selectStaticImageButton.addEventListener("click", async () => {
 selectMovingImageButton.addEventListener("click", async event => {
     shell.beep();
     const response = await ipcRenderer.invoke("selectImage", [
-        { name: "Hentai", extensions: ["gif"] },
+        { name: "GIF", extensions: ["gif"] },
     ], "dynamic").catch(error => alert(error));
 
     const replaceText = response || "None";
