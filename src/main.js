@@ -2,6 +2,7 @@ const { app, dialog, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
 const generateGifImage = require("../src/images");
+const settings = require("../src/settings");
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
@@ -69,14 +70,12 @@ ipcMain.handle("changeSaveLocation", async (event) => {
         properties: ["openDirectory"],
     }).catch(error => console.error(error));
 
-    if (!response.canceled) {
-        console.log(response);
-        // handle fully qualified file name
-        console.log(response.filePaths[0]);
-        currentSettings.save = response.filePaths[0];
-    } else {
-        console.log("no file selected");
-    }
+    // No directory was selected
+    if (response.canceled) return;
+
+    // Store save location for direct & for later use
+    currentSettings.save = response.filePaths[0];
+    settings.set("saveLocation", currentSettings.save);
 
     return currentSettings.save;
 });

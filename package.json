@@ -4,6 +4,7 @@
   "description": "Dumb thingy",
   "main": "src/main.js",
   "dependencies": {
+    "electron-store": "^8.0.1",
     "gif-encoder-2": "^1.0.5",
     "gif-frames": "^0.2.4",
     "skia-canvas": "^0.9.23"
