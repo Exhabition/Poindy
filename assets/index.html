@@ -55,7 +55,7 @@
     </div>
 
     <form id="regForm">
-      <h1>Complete this action:</h1>
+      <h1 id="form-title">Complete this action:</h1>
 
       <div class="tab" id=>
         Select a static image, this is what people will see if they don't hover
@@ -109,6 +109,12 @@
         <p id="saveLocationLabel">Selected: None</p>
       </div>
 
+      <div class="tab">
+        <div class="progress progress-moved">
+          <div id="progress-bar"></div>
+        </div>
+      </div>
+
       <div style="overflow: auto">
         <div style="float: right">
           <button type="button" id="prevBtn" onclick="nextPrev(-1)">
@@ -119,6 +125,7 @@
       </div>
 
       <div style="text-align: center; margin-top: 40px">
+        <span class="step"></span>
         <span class="step"></span>
         <span class="step"></span>
         <span class="step"></span>

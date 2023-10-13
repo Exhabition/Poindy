@@ -1,3 +1,15 @@
+
+const prevButton = document.getElementById("prevBtn");
+const nextButton = document.getElementById("nextBtn");
+const formTitle = document.getElementById("form-title");
+
+const TABS = {
+    SELECT_STATIC: 0,
+    SELECT_GIF: 1,
+    SELECT_SETTINGS: 2,
+    RESULTS_PAGE: 3,
+}
+
 let currentTab = 0;
 showTab(currentTab);
 
@@ -5,18 +17,31 @@ function showTab(pos) {
     const tab = document.getElementsByClassName("tab");
     tab[pos].style.display = "block";
 
-    if (pos == 0) {
-        document.getElementById("prevBtn").style.display = "none";
+    if (pos === 0) {
+        prevButton.style.display = "none";
     } else {
-        document.getElementById("prevBtn").style.display = "inline";
+        prevButton.style.display = "inline";
     }
-    if (pos == tab.length - 1) {
-        document.getElementById("nextBtn").innerHTML = "Submit";
-        const color = window.getComputedStyle(document.documentElement).getPropertyValue("--green");
-        document.getElementById("nextBtn").style.backgroundColor = color;
+
+    if (pos === TABS.SELECT_SETTINGS) {
+        const submitColor = window.getComputedStyle(document.documentElement).getPropertyValue("--green");
+
+        nextButton.innerText = "Submit";
+        nextButton.style.backgroundColor = submitColor;
+    } else if (pos === TABS.RESULTS_PAGE) {
+        const disabledColor = window.getComputedStyle(document.documentElement).getPropertyValue("--icons-grey");
+
+        formTitle.innerText = "Waiting for Results...";
+
+        nextButton.innerText = "Finish";
+        nextButton.style.backgroundColor = disabledColor;
+
+        console.log("genning")
+        generateGifImage();
     } else {
-        document.getElementById("nextBtn").innerHTML = "Next";
+        nextButton.innerText = "Next";
     }
+
     fixStepIndicator(pos);
 }
 
@@ -35,21 +60,14 @@ async function nextPrev(n) {
 
     currentTab = currentTab + n;
 
-    if (currentTab >= x.length) {
-        generateGifImage();
-        return false;
-    }
-
     showTab(currentTab);
 }
 
 async function validateForm() {
-    console.log("validateForm");
     let valid = false;
 
     const currentInfo = await ipcRenderer.invoke("getCurrentInfo");
     const currentOption = Object.values(currentInfo)[currentTab];
-    console.log(currentOption);
     if (currentOption) {
         valid = true;
         document.getElementsByClassName("step")[currentTab].classList.add("finish");
@@ -80,7 +98,63 @@ function showToast(text, color = "#ed4245") {
 }
 
 function generateGifImage() {
+    subscribeForProgress();
+
     ipcRenderer.invoke("generateGifImage").then((result) => {
         showToast(`Image saved to <b>${result.save || "Unknown Location"}</b>`, "#3ba55d");
+
+        unsubscribeForProgress();
     });
 }
+
+
+
+function subscribeForProgress() {
+    ipcRenderer.on("generateProgress", (event, progessPercentage) => {
+        console.log(event, progessPercentage);
+
+        setProgress(progessPercentage);
+    });
+}
+
+function unsubscribeForProgress() {
+    ipcRenderer.removeAllListeners("generateProgress");
+}
+
+function setProgress(widthPercentage) {
+    const styleTag = document.getElementById('custom-progress-animation');
+    if (styleTag) {
+      styleTag.remove();
+    }
+
+    const progressBar = document.getElementById("progress-bar");
+    console.log(progressBar.style.width)
+    const currentWidth = parseInt(progressBar.style.width.slice(0, -1));
+
+    const secondsPerPercent = 0.5;
+    const animationLength = secondsPerPercent * (widthPercentage - currentWidth);
+    console.log(animationLength);
+  
+    const style = document.createElement('style');
+    style.id = 'custom-progress-animation';
+    style.innerHTML = `
+      @keyframes custom-progress {
+        0% {
+          width: ${currentWidth}%;
+          background: var(--soft-pink);
+        }
+        100% {
+          width: ${widthPercentage}%;
+          background: var(--blurple);
+        }
+      }
+  
+      .progress-moved #progress-bar {
+        animation: custom-progress ${animationLength}s;
+      }
+    `;
+  
+    document.head.appendChild(style);
+
+    progressBar.style.width = widthPercentage + '%';
+  }

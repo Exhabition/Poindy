@@ -11,6 +11,7 @@
   --blurple: #5865f2;
   --green: #3ba55d;
   --red: #ed4245;
+  --soft-pink: #f08ba2;
 }
 
 body {
@@ -471,4 +472,22 @@ input.invalid {
   font-size: 25px;
   font-weight: 500;
   margin: 18px;
+}
+
+.progress {
+  border-radius: 30px;
+  background-color: #fff;
+}
+
+#progress-bar {
+  height: 18px;
+  border-radius: 30px;
+  transition: 0.4s linear;
+  transition-property: width, background-color;
+}
+
+.progress-moved #progress-bar {
+  background-color: var(--blurple);
+  box-shadow: 0 0 40px var(--blurple);
+  width: 0%;
 }

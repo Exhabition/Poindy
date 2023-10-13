@@ -4,8 +4,10 @@ const path = require("path");
 const generateGifImage = require("../src/images");
 const settings = require("../src/settings");
 
+let mainWindow;
+
 function createWindow() {
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         show: false,
         width: 800,
         height: 600,
@@ -89,7 +91,7 @@ ipcMain.handle("getCurrentInfo", async (event) => currentSettings);
 
 ipcMain.handle("generateGifImage", async (event) => {
     if (currentSettings.static && currentSettings.dynamic) {
-        await generateGifImage(currentSettings);
+        await generateGifImage(currentSettings, mainWindow);
     }
 
     return currentSettings;

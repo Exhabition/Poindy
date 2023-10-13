@@ -12,7 +12,7 @@ const { writeFile } = require("fs").promises;
 const { Canvas, loadImage, Image } = require("skia-canvas");
 
 // Self executing function to allow await in this function
-module.exports = async (settings) => {
+module.exports = async (settings, mainWindow) => {
     const staticImagePath = settings.static;
     const gifImagePath = settings.dynamic;
     const amountOfLoops = settings.loops || 1;
@@ -44,7 +44,8 @@ module.exports = async (settings) => {
 
     // Use the amount of loops value we got early to loop multiple times (or not)
     for (let i = 0; i < parseInt(amountOfLoops); i++) {
-        console.log(`Starting to add loop #${i + 1} of ${parseInt(amountOfLoops)}`);
+        const percentage = ((i + 1) / parseInt(amountOfLoops)) * 100;
+        mainWindow.webContents.send("generateProgress", percentage);
 
         for (const frame of frames) {
             // Creating an image that will be accepted by canvas & accessing the buffer of the frame
